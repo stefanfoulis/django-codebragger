@@ -1,0 +1,60 @@
+{% extends "tpl_master.html" %}
+
+{% block title %}{{ object.title }}{% endblock %}
+{% block col_content %}
+	<div class="container">
+		<a class="btn btn-mini btn-inverse" href="{% url codebragger_project_list %}"><i class="icon-chevron-left icon-white"></i> back to list</a>
+		<div class="row">
+			{% comment %}
+			<div class="span3">
+				<div class="well sidebar-nav">
+					<ul class="nav nav-list">
+						<li class="nav-header">my projects</li>
+						{% for nav_project in projects %}
+							<li{% if project == nav_project %} class="active"{% endif %}><a href="{% url codebragger_project_detail nav_project.slug %}">{{ nav_project.title }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			{% endcomment %}
+			<div class="span8">
+				<h2>{{ object.title }} <small>{{ object.tagline }}</small></h2>
+				<p>{{ object.short_description }}</p>
+				{% if project.pypi_url %}
+					<a class="btn" href="{{ project.pypi_url }}"><img style="vertical-align: text-top;" src="{{ STATIC_URL }}content/icons/pypi-16x16.png" /> download package</a>
+				{% endif %}
+				{% if project.repo_url %}
+					<a class="btn" href="{{ project.repo_url }}"><img style="vertical-align: text-top;" src="{{ STATIC_URL }}content/icons/github-16x16.png" /> sourcecode</a>
+				{% endif %}
+				{% if project.docs_url %}
+					<a class="btn" href="{{ project.docs_url }}"><img style="vertical-align: text-top;" src="{{ STATIC_URL }}content/icons/readthedocs-16x16.png" /> documentation</a>
+				{% endif %}
+			</div>
+			<div class="span2">
+				<div>
+					{% for contributor in project.contributors.all %}
+					<img src="{{ contributor.person.avatar }}" style="float: left; width: {% if contributor.is_core %}50%{% else %}25%{% endif %}" />
+					{% endfor %}
+				</div>
+			</div>
+			<div class="span2">
+				<div class="dashbox-number dashbox-number-primary">
+					current release
+					<big>{{ object.pypi_latest_version }}</big>
+				</div>
+				<div class="dashbox-number dashbox-number-inverse">
+					downloads
+					<big>{{ object.pypi_downloads }}</big>
+				</div>
+				<div class="dashbox-number dashbox-number-inverse">
+					watchers
+					<big>{{ object.repo_watchers }}</big>
+				</div>
+				<div class="dashbox-number dashbox-number-inverse">
+					forks
+					<big>{{ object.repo_forks }}</big>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
