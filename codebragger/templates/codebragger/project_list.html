@@ -1,20 +1,11 @@
-{% extends "tpl_master.html" %}
+{% extends "base.html" %}
 
 {% block title %}OpenSource Projects{% endblock %}
 
-{% block col_content %}
-	<div class="container">
-		<table class="table">
-			{% for object in object_list %}{% with object as project %}
-			<tr>
-				<td>
-					<h2>{{ object.title }} <small>{{ object.tagline }}</small></h2>
-				</td>
-				<td style="vertical-align: middle; text-align: right;">
-					<a class="btn btn-primary" href="{% url codebragger_project_detail object.slug %}">show details</a>
-				</td>
-			</tr>
-			{% endwith %}{% endfor %}
-		</table>
-	</div>
+{% block content %}
+	<ul>
+		{% for object in object_list %}
+			<li><a href="{% url codebragger_project_detail object.slug %}"><strong>{{ object.title }}</strong></a> <small>{{ object.tagline }}</small></li>
+		{% endfor %}
+	</ul>
 {% endblock %}
