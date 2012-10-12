@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from stefanfoulis.validation import pypi_package_name_validator
 from codebragger import data_collector
+from django.db.models.deletion import SET_NULL
 from filer.fields.image import FilerImageField
 from dirtyfields import DirtyFieldsMixin
 
@@ -15,7 +16,8 @@ class Project(DirtyFieldsMixin, models.Model):
     slug = models.CharField(max_length=255, validators=[pypi_package_name_validator])
     tagline = models.CharField(max_length=255, blank=True, default='')
     short_description = models.TextField(blank=True, default='')
-    main_image = FilerImageField(null=True, blank=True, related_name='%(app_label)s_project_main_images')
+    main_image = FilerImageField(null=True, blank=True, on_delete=SET_NULL,
+        related_name='%(app_label)s_project_main_images')
 
     participants = models.TextField(blank=True, default='')
     participant_count = models.IntegerField(null=True, blank=True)
