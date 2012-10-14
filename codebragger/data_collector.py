@@ -86,7 +86,6 @@ def apply_data_from_github(obj):
         )
         if not created:
             contributor.contributions = contributor_data.get('contributions', 0)
-            contributor.is_core = is_first
             contributor.save()
         is_first = False  # they are ordered by contributions. the first has the most.
     return obj
